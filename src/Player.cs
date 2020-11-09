@@ -4,47 +4,24 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ArcadeFlyer2D
 {
-    class Player
+    class Player : Sprite
     {
         private ArcadeFlyerGame root;
 
-        private Vector2 position;
-
-        private Texture2D spriteImage;
-        
-        private float spriteWidth;
-
-        public float SpriteHeight
-        {
-            get
-            {
-                float scale = spriteWidth / spriteImage.Width;
-                return spriteImage.Height * scale;
-            }
-        }
-
-        public Rectangle PositionRectangle
-        {
-            get 
-            {
-                return new Rectangle((int)position.X, (int)position.Y, (int)spriteWidth, (int)SpriteHeight);
-            }
-        }
-
         private float movementSpeed = 4.0f;
 
-        public Player(ArcadeFlyerGame root, Vector2 position)
+        public Player(ArcadeFlyerGame root, Vector2 position) : base(position)
         {
             this.root = root;
             this.position = position;
-            this.spriteWidth = 128.0f;
+            this.SpriteWidth = 128.0f;
 
             LoadContent();
         }
 
         public void LoadContent()
         {
-            this.spriteImage = root.Content.Load<Texture2D>("MainChar");
+            this.SpriteImage = root.Content.Load<Texture2D>("MainChar");
         }
 
         private void HandleInput(KeyboardState currentKeyboardState)
@@ -80,11 +57,6 @@ namespace ArcadeFlyer2D
             KeyboardState currentKeyboardState = Keyboard.GetState();
 
             HandleInput(currentKeyboardState);
-        }
-
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(spriteImage, PositionRectangle, Color.White);
         }
     }
 }
