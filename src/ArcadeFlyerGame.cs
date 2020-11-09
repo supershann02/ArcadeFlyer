@@ -14,6 +14,22 @@ namespace ArcadeFlyer2D
 
         // The player
         private Player player;
+
+        private Enemy enemy;
+
+        private int screenWidth = 1600;
+        public int ScreenWidth
+        {
+            get { return screenWidth; }
+            private set { screenWidth = value; }
+        }
+        
+        private int screenHeight = 900;
+        public int ScreenHeight 
+        {
+            get { return screenHeight; }
+            private set { screenHeight = value; }
+        }
         
         // Initalized the game
         public ArcadeFlyerGame()
@@ -22,8 +38,8 @@ namespace ArcadeFlyer2D
             graphics = new GraphicsDeviceManager(this);
 
             // Set the height and width
-            graphics.PreferredBackBufferWidth = 1600;
-            graphics.PreferredBackBufferHeight = 900;
+            graphics.PreferredBackBufferWidth = screenWidth;
+            graphics.PreferredBackBufferHeight = screenHeight;
             graphics.ApplyChanges();
 
             // Set up the directory containing the assets
@@ -34,6 +50,8 @@ namespace ArcadeFlyer2D
 
             // Initialize the player to be in the top left
             player = new Player(this, new Vector2(0.0f, 0.0f));
+
+            enemy = new Enemy(this, new Vector2(screenWidth, 0));
         }
 
         // Initialize
@@ -57,6 +75,7 @@ namespace ArcadeFlyer2D
 
             // Update the player
             player.Update(gameTime);
+            enemy.Update(gameTime);
         }
 
         // Draw everything in the game
@@ -70,6 +89,7 @@ namespace ArcadeFlyer2D
 
             // Draw the player
             player.Draw(gameTime, spriteBatch);
+            enemy.Draw(gameTime, spriteBatch);
 
             // End batch draw
             spriteBatch.End();
