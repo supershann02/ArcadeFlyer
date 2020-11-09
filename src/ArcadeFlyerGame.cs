@@ -11,6 +11,8 @@ namespace ArcadeFlyer2D
 
         // Sprite Drawer
         private SpriteBatch spriteBatch;
+
+        private Texture2D playerImage;
         
         // Initalized the game
         public ArcadeFlyerGame()
@@ -41,6 +43,8 @@ namespace ArcadeFlyer2D
         {
             // Create the sprite batch
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            playerImage = Content.Load<Texture2D>("MainChar");
         }
 
         // Called every frame
@@ -54,7 +58,15 @@ namespace ArcadeFlyer2D
         protected override void Draw(GameTime gameTime)
         {
             // First clear the screen
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
+
+            spriteBatch.Begin();
+
+            Rectangle playerDestinationRect = new Rectangle(0, 0, playerImage.Width, playerImage.Height);
+
+            spriteBatch.Draw(playerImage, playerDestinationRect, Color.White);
+
+            spriteBatch.End();
         }
     }
 }
