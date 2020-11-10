@@ -32,6 +32,14 @@ namespace ArcadeFlyer2D
             {
                 velocity.Y *= -1;
             }
+
+            Vector2 projectilePosition = new Vector2();
+            projectilePosition.X = position.X;
+            projectilePosition.Y = position.Y + (SpriteHeight / 2);
+            Vector2 projectileVelocity = new Vector2();
+            projectileVelocity.X = -5.0f;
+            projectileVelocity.Y = 0f;
+            root.FireProjectile(projectilePosition, projectileVelocity);
         }
     }
 }
