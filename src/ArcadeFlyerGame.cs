@@ -22,11 +22,11 @@ namespace ArcadeFlyer2D
         // List of all projectiles on the screen
         private List<Projectile> projectiles;
 
-        // Projectile image for player
         private Texture2D playerProjectileSprite;
 
-        // Screen width
-        private int screenWidth = 1600;
+        private Texture2D enemyProjectileSprite;
+
+        private int screenWidth = 1200;
         public int ScreenWidth
         {
             get { return screenWidth; }
@@ -34,7 +34,7 @@ namespace ArcadeFlyer2D
         }
 
         // Screen height
-        private int screenHeight = 900;
+        private int screenHeight = 600;
         public int ScreenHeight
         {
             get { return screenHeight; }
@@ -82,6 +82,7 @@ namespace ArcadeFlyer2D
 
             // Load in textures
             playerProjectileSprite = Content.Load<Texture2D>("PlayerFire");
+            enemyProjectileSprite = Content.Load<Texture2D>("EnemyProjectile");
         }
 
         // Called every frame
@@ -120,17 +121,22 @@ namespace ArcadeFlyer2D
                 p.Draw(gameTime, spriteBatch);
             }
 
-            // End batch draw
             spriteBatch.End();
         }
 
-        // Fires a projectile with the given position and velocity
-        public void FireProjectile(Vector2 position, Vector2 velocity)
+        public void FireProjectile(Vector2 position, Vector2 velocity, string projectileType)
         {
-            // Create the new projectile
-            Projectile firedProjectile = new Projectile(position, velocity, playerProjectileSprite);
+            Texture2D projectileTexture;
 
-            // Add the projectile to the list
+            if (projectileType == "enemy")
+            {
+                projectileTexture = enemyProjectileSprite;
+            } else 
+            {
+                projectileTexture = playerProjectileSprite;
+            }
+            
+            Projectile firedProjectile = new Projectile(position, velocity, projectileTexture);
             projectiles.Add(firedProjectile);
         }
     }
