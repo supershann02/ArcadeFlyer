@@ -10,6 +10,12 @@ namespace ArcadeFlyer2D
 
         private float movementSpeed = 4.0f;
 
+        private float projectileCoolDownTime = 0.5f;
+
+        private float projectileTimer = 0.0f;
+
+        private bool projectileTimerActive = false;
+
         public Player(ArcadeFlyerGame root, Vector2 position) : base(position)
         {
             this.root = root;
@@ -57,6 +63,27 @@ namespace ArcadeFlyer2D
             KeyboardState currentKeyboardState = Keyboard.GetState();
 
             HandleInput(currentKeyboardState);
+
+            if (!projectileTimerActive && currentKeyboardState.IsKeyDown(Keys.Space))
+            {
+                Vector2 projectilePosition = new Vector2(position.X + SpriteWidth, position.Y + SpriteHeight / 2);
+                Vector2 projectileVelocity = new Vector2(10.0f, 0.0f);
+
+                root.FireProjectile(projectilePosition, projectileVelocity);
+
+                projectileTimerActive = true;
+                projectileTimer = 0.0f;
+            }
+
+            if (projectileTimerActive)
+            {
+                projectileTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (projectileTimer >= projectileCoolDownTime)
+                {
+                    projectileTimerActive = false;
+                }
+            }
         }
     }
 }

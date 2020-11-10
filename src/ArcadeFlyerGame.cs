@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace ArcadeFlyer2D
 {
@@ -16,6 +17,10 @@ namespace ArcadeFlyer2D
         private Player player;
 
         private Enemy enemy;
+
+        private List<Projectile> projectiles;
+
+        private Texture2D playerProjectileSprite;
 
         private int screenWidth = 1600;
         public int ScreenWidth
@@ -52,6 +57,8 @@ namespace ArcadeFlyer2D
             player = new Player(this, new Vector2(0.0f, 0.0f));
 
             enemy = new Enemy(this, new Vector2(screenWidth, 0));
+
+            projectiles = new List<Projectile>();
         }
 
         // Initialize
@@ -65,6 +72,8 @@ namespace ArcadeFlyer2D
         {
             // Create the sprite batch
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            playerProjectileSprite = Content.Load<Texture2D>("PlayerFire");
         }
 
         // Called every frame
@@ -73,9 +82,13 @@ namespace ArcadeFlyer2D
             // Update base game
             base.Update(gameTime);
 
-            // Update the player
             player.Update(gameTime);
             enemy.Update(gameTime);
+
+            foreach (Projectile p in projectiles)
+            {
+                p.Update();
+            }
         }
 
         // Draw everything in the game
@@ -93,6 +106,12 @@ namespace ArcadeFlyer2D
 
             // End batch draw
             spriteBatch.End();
+        }
+
+        public void FireProjectile(Vector2 position, Vector2 velocity)
+        {
+            Projectile firedProjectile = new Projectile(position, velocity, playerProjectileSprite);
+            projectiles.Add(firedProjectile);
         }
     }
 }
