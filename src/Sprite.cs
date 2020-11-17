@@ -57,6 +57,12 @@ namespace ArcadeFlyer2D
             this.position = position;
         }
 
+        public bool Overlaps(Sprite otherSprite)
+        {
+            bool doesOverlap = this.PositionRectangle.Intersects(otherSprite.PositionRectangle);
+            return doesOverlap;
+        }
+
         // Draw the sprite
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {

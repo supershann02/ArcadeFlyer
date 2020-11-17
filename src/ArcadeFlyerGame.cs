@@ -99,9 +99,20 @@ namespace ArcadeFlyer2D
             enemy.Update(gameTime);
 
             // Update all projectiles
-            foreach (Projectile p in projectiles)
+            for (int i = projectiles.Count - 1; i >= 0; i--)
             {
+                Projectile p = projectiles[i];
                 p.Update();
+
+                bool isPlayerProjectile = p.ProjectileType == ProjectileType.Player;
+                
+                if (!isPlayerProjectile && player.Overlaps(p))
+                {
+                    projectiles.Remove(p);
+                } else if(isPlayerProjectile && enemy.Overlaps(p))
+                {
+                    projectiles.Remove(p);
+                }
             }
         }
 
