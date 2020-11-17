@@ -13,7 +13,7 @@ namespace ArcadeFlyer2D
         // The speed at which the player can move
         private float movementSpeed = 4.0f;
 
-        private Timer coolDownTimer;
+        private Timer projectileCoolDown;
 
         // Initialize a player
         public Player(ArcadeFlyerGame root, Vector2 position) : base(position)
@@ -22,7 +22,7 @@ namespace ArcadeFlyer2D
             this.root = root;
             this.position = position;
             this.SpriteWidth = 128.0f;
-            this.coolDownTimer = new Timer(0.5f);
+            this.projectileCoolDown = new Timer(0.5f);
 
             // Load the content for the player
             LoadContent();
@@ -69,7 +69,7 @@ namespace ArcadeFlyer2D
                 position.X += movementSpeed;
             }
 
-            if (spaceKeyPressed && !coolDownTimer.Active)
+            if (spaceKeyPressed && !projectileCoolDown.Active)
             {
                 // Generate the projectile information
                 Vector2 projectilePosition = new Vector2(position.X + SpriteWidth, position.Y + SpriteHeight / 2);
@@ -77,7 +77,7 @@ namespace ArcadeFlyer2D
 
                 root.FireProjectile(projectilePosition, projectileVelocity, "player");
 
-                coolDownTimer.StartTimer();
+                projectileCoolDown.StartTimer();
             }
         }
 
@@ -90,7 +90,7 @@ namespace ArcadeFlyer2D
             // Handle any movement input
             HandleInput(currentKeyboardState);
 
-            coolDownTimer.Update(gameTime);
+            projectileCoolDown.Update(gameTime);
         }
     }
 }

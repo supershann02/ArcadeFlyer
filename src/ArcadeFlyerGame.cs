@@ -80,12 +80,11 @@ namespace ArcadeFlyer2D
             // Create the sprite batch
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // Load in textures
             playerProjectileSprite = Content.Load<Texture2D>("PlayerFire");
             enemyProjectileSprite = Content.Load<Texture2D>("EnemyProjectile");
         }
 
-        // Called every frame
+        
         protected override void Update(GameTime gameTime)
         {   
             // Update base game
@@ -95,10 +94,17 @@ namespace ArcadeFlyer2D
             player.Update(gameTime);
             enemy.Update(gameTime);
 
-            // Update all projectiles
-            foreach (Projectile p in projectiles)
+            for (int i = projectiles.Count - 1; i >= 0; i--)
             {
-                p.Update();
+              Projectile p = projectiles[i];  
+              p.Update();
+
+              bool playerProjectile = p.ProjectileType == ProjectiveType.Player;
+
+              if (!playerProjectile && player.Overlaps(p))
+              {
+                  projectiles.Remove(p);
+              }
             }
         }
 

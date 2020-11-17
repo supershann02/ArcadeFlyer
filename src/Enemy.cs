@@ -22,6 +22,7 @@ namespace ArcadeFlyer2D
             this.position = position;
             this.SpriteWidth = 128.0f;
             this.velocity = new Vector2(-1.0f, 5.0f);
+            this.projectileCoolDown = new Timer(2.0f);
 
             // Load the content for this enemy
             LoadContent();
@@ -58,6 +59,7 @@ namespace ArcadeFlyer2D
                 projectileVelocity.Y = 0.0f;
                 root.FireProjectile(projectilePosition, projectileVelocity, "enemy");
             }
+            projectileCoolDown.Update(gameTime);
         }
     }
 }
