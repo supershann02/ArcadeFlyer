@@ -14,6 +14,12 @@ namespace ArcadeFlyer2D
         // Sprite Drawer
         private SpriteBatch spriteBatch;
 
+        private int life = 3;
+
+        private int score = 0;
+
+        private bool gameOver = false;
+
         // The player
         private Player player;
 
@@ -31,6 +37,8 @@ namespace ArcadeFlyer2D
 
         // Projectile image for enemy
         private Texture2D enemyProjectileSprite;
+
+        private SpriteFont textFont;
 
         // Screen width
         private int screenWidth = 1600;
@@ -97,6 +105,8 @@ namespace ArcadeFlyer2D
             // Load in textures
             playerProjectileSprite = Content.Load<Texture2D>("PlayerFire");
             enemyProjectileSprite = Content.Load<Texture2D>("EnemyFire");
+
+            textFont = Content.Load<SpriteFont>("Text");
         }
 
         // Called every frame
@@ -104,6 +114,11 @@ namespace ArcadeFlyer2D
         {   
             // Update base game
             base.Update(gameTime);
+
+            if (gameOver)
+            {
+                return;
+            }
 
             // Update the player
             player.Update(gameTime);
@@ -129,6 +144,13 @@ namespace ArcadeFlyer2D
                 {
                     // There is a collision with the player, remove the projectile
                     projectiles.Remove(p);
+
+                    life--;
+
+                    if (life < 1)
+                    {
+                        gameOver = true;
+                    }
                 }
                 else if (playerProjectile)
                 {
@@ -146,6 +168,8 @@ namespace ArcadeFlyer2D
 
                             // Remove the enemy as well
                             enemies.Remove(enemy);
+
+                            score = score + 1000;
                         }
                     }
                 }
@@ -187,6 +211,16 @@ namespace ArcadeFlyer2D
             foreach (Projectile p in projectiles)
             {
                 p.Draw(gameTime, spriteBatch);
+            }
+
+            string scoreString = "Score: " + score.ToString();
+            string livesString = "Lives: " + life.ToString();
+            spriteBatch.DrawString(textFont, scoreString, Vector2.Zero, Color.Black);
+            spriteBatch.DrawString(textFont, livesString, new Vector2(0f, 20f), Color.Black);
+
+            if (gameOver) 
+            {
+                spriteBatch.DrawString(textFont, "Game Over", new Vector2( screenWidth / 2, screenHeight / 2), Color.DarkOliveGreen);
             }
 
             // End batch draw
